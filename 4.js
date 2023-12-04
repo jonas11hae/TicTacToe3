@@ -108,7 +108,6 @@ function unentschiedenPruefen() {
 }
 
 function computerZugAusfuehren() {
-    // Prüfen auf mögliche Gewinnzüge oder Blockierung des Gegners
     let besterZug = findeBestenZug();
 
     if (besterZug !== null) {
@@ -118,7 +117,6 @@ function computerZugAusfuehren() {
         return;
     }
 
-    // Wenn kein Gewinn- oder Blockierungszug vorhanden ist, wähle zufällig
     let zufallsIndex;
     do {
         zufallsIndex = Math.floor(Math.random() * 9);
@@ -133,13 +131,19 @@ function findeBestenZug() {
     for (let i = 0; i < SIEG_KOMBINATIONEN.length; i++) {
         let kombination = SIEG_KOMBINATIONEN[i];
 
-        let gegnerFelder = kombination.filter(feld => feld.classList.contains(SPIELER_KLASSE));
         let eigeneFelder = kombination.filter(feld => feld.classList.contains(GEGNER_KLASSE));
         let freieFelder = kombination.filter(feld => !feld.classList.contains(SPIELER_KLASSE) && !feld.classList.contains(GEGNER_KLASSE));
 
         if (eigeneFelder.length === 2 && freieFelder.length === 1) {
             return Array.from(felder).indexOf(freieFelder[0]);
         }
+    }
+
+    for (let i = 0; i < SIEG_KOMBINATIONEN.length; i++) {
+        let kombination = SIEG_KOMBINATIONEN[i];
+
+        let gegnerFelder = kombination.filter(feld => feld.classList.contains(SPIELER_KLASSE));
+        let freieFelder = kombination.filter(feld => !feld.classList.contains(SPIELER_KLASSE) && !feld.classList.contains(GEGNER_KLASSE));
 
         if (gegnerFelder.length === 2 && freieFelder.length === 1) {
             return Array.from(felder).indexOf(freieFelder[0]);
