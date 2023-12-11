@@ -164,6 +164,19 @@ function minimax(istMaximierenderSpieler) {
 }
 
 function bestenZugFinden() {
+    // Zuerst prüfen, ob ein Gewinnzug möglich ist
+    for (let i = 0; i < felder.length; i++) {
+        if (!felder[i].classList.contains(SPIELER_KLASSE) && !felder[i].classList.contains(GEGNER_KLASSE)) {
+            felder[i].classList.add(GEGNER_KLASSE);
+            if (siegPruefen(GEGNER_KLASSE)) {
+                felder[i].classList.remove(GEGNER_KLASSE);  // Wichtig, um den Zustand wiederherzustellen
+                return i; // Gewinnzug sofort zurückgeben
+            }
+            felder[i].classList.remove(GEGNER_KLASSE);
+        }
+    }
+
+    // Wenn kein Gewinnzug gefunden wurde, reguläre Minimax-Logik anwenden
     let besterWert = -Infinity;
     let besterZug = null;
     for (let i = 0; i < felder.length; i++) {
@@ -179,3 +192,4 @@ function bestenZugFinden() {
     }
     return besterZug;
 }
+
